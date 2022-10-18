@@ -1,5 +1,6 @@
 from instagramy import InstagramUser
 import pandas as pd
+import json
 
 session_id = "48338665931%3A8JccSUwl1mTGNh%3A15%3AAYfe4mQPQOGYa_Be59WWty8YFbsMfzIcPQQsBu42yQ"
 
@@ -47,10 +48,20 @@ def get_instagram_data(user, category):
 
 user_list = pd.read_csv("top-users.csv")
 
-for col in user_list.columns:
-    for user in user_list[col]:
-        print (user)
-        get_instagram_data(user, col)
+
+
+f= open('users.json')
+users = json.load(f)
+users_copy = users
+
+for i in users_copy:
+
+    get_instagram_data(i, users[i])
+    print (i)
+    del users[i]
+    with open("users.json", "w") as outfile:
+        json.dump(users, outfile)
+
 
 df = pd.DataFrame()
 
